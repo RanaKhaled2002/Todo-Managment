@@ -1,0 +1,84 @@
+﻿@model List<IndexViewModel>
+
+@{
+    ViewData["Title"] = "Todo List";
+}
+
+<h2 class="mt-3">Todo List</h2>
+
+@if (Model.Count > 0)
+{
+    <form method="get" asp-action="Index" class="mb-3">
+        <label for="status">Filter by Status:</label>
+        <select id="status" name="status" class="form-select w-25 d-inline-block">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="InProgress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <label>Priority:</label>
+        <select name="priority" class="form-select d-inline w-auto">
+            <option value="">All</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <button type="submit" class="btn btn-primary ms-2">Filter</button>
+    </form>
+
+    
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Due Date</th>
+                <th>Last Modified Date</th>
+                <th>Delete</th>
+                <th>Update</th>
+                <th>Mark As Complete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Status</td>
+                    <td>@item.Priority</td>
+                    <td>@(item.DueDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                    <td>@(item.LastModifiedDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss") ?? "-")</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning text-white">Update</a>
+                    </td>
+                    <td>
+                        @if (item.Status != "Completed")
+                        {
+                            <form asp-action="MarkComplete" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="checkbox" onchange="this.form.submit()" class="form-check-input" />
+                                <label class="form-check-label ms-1">Mark as Complete</label>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-success">Completed</span>
+                        }
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4 class="alert alert-warning mt-3">No List Found</h4>
+}
