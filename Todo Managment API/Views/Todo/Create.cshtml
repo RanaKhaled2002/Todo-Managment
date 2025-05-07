@@ -1,0 +1,44 @@
+﻿@model CreateViewModel
+
+@{
+    ViewData["Title"] = "Create Todo";
+}
+
+<h2>Create Todo</h2>
+
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" name="Title" class="form-control" required maxlength="100" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea id="Description" name="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Status</label>
+        <select id="Status" name="Status" class="form-control">
+            <option value="Pending">Pending</option>
+            <option value="InProgress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Priority">Priority</label>
+        <select id="Priority" name="Priority" class="form-control">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="DueDate">Due Date</label>
+        <input type="date" id="DueDate" name="DueDate" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Add Todo</button>
+</form>
